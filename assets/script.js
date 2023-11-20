@@ -29,8 +29,14 @@ console.log(convertLatitude);
 console.log(convertLongitude);
 }
 
+function kelvinToCelsius (kelvinTemp) {
+  return (kelvinTemp - 273.15).toFixed(1);
+}
+
+console.log(kelvinToCelsius(283.66));
+
 function getForecast() {
-// test using the weather API to ge the forecast, using the derived long/lat above
+// test using the weather API to get the forecast, using the derived long/lat above
 var queryURLTest = "https://api.openweathermap.org/data/2.5/weather?lat=" + convertLatitude + "&lon=" + convertLongitude + "&appid=" + APIKey;
 
   fetch(queryURLTest)
@@ -56,7 +62,7 @@ var queryURLTest = "https://api.openweathermap.org/data/2.5/weather?lat=" + conv
     searchedCity.appendChild(weatherImage);
     // Display temp
     var temp = document.createElement('p');
-    temp.textContent = "Temperature: " + data.main.temp;
+    temp.textContent = "Temperature: " + kelvinToCelsius(data.main.temp) + "°C";
     searchedCity.appendChild(temp);
     // Display wind
     var wind = document.createElement('p');
@@ -66,7 +72,18 @@ var queryURLTest = "https://api.openweathermap.org/data/2.5/weather?lat=" + conv
     var humidity = document.createElement('p');
     humidity.textContent = "Humidity: " + data.main.humidity + "%";
     searchedCity.appendChild(humidity);
+    todaysWeatherBox.setAttribute('style', 'border: 1px solid black');
+    // add button to stored buttons
+    // style that button
+    // make button repeat the search for that city
+    // save button in local storage
+
+    // create header for 5 day forecast
+
   });
 
 }
 getLatLon();
+
+// make searched city = what was in the search box
+// convert temp to celsius
