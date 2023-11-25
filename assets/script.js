@@ -7,6 +7,12 @@ var todaysDate = dayjs().format('DD/MM/YY');
 // Variable to select the div which will hold today's forecast
 var todaysWeatherBox = document.getElementById('today');
 
+// variable to select the div which will hold the previous searches
+var searchHistoryBox = document.getElementById('history');
+
+// variable to select the div which will hold the five-day forecast
+var fiveDayBox = document.getElementById('forecast');
+
 // get the searched value and generate the results
 var searchButton = document.getElementById('search-button');
 var searchedValue = document.getElementById('search-input');
@@ -16,6 +22,9 @@ searchButton.addEventListener('click', function(event) {
   cityName = searchedValue.value;
   console.log(searchedValue.value);
   console.log(cityName);
+  var savedSearch = document.createElement('button')
+  savedSearch.textContent = searchedValue.value;
+  searchHistoryBox.appendChild(savedSearch);
   getLatLon();
 }); 
 
@@ -105,7 +114,6 @@ function getForecast() {
     // create header for 5 day forecast
 
   });
-
 }
 
 function fiveDayForecast() {
