@@ -20,8 +20,6 @@ var searchedValue = document.getElementById('search-input');
 searchButton.addEventListener('click', function(event) {
   event.preventDefault();
   cityName = searchedValue.value;
-  console.log(searchedValue.value);
-  console.log(cityName);
   var savedSearch = document.createElement('button')
   savedSearch.textContent = searchedValue.value;
   searchHistoryBox.appendChild(savedSearch);
@@ -33,7 +31,6 @@ searchButton.addEventListener('click', function(event) {
 searchHistoryBox.addEventListener('click', function(event) {
   event.preventDefault();
   cityName = this.value;
-  console.log(cityName);
   getLatLon();
 });
 
@@ -43,7 +40,7 @@ var convertLongitude = "";
 
 // function to convert Kelvin temperature to Celsius
 function kelvinToCelsius (kelvinTemp) {
-  return (kelvinTemp - 273.15).toFixed(1);
+  return (kelvinTemp - 273.15).toFixed(0);
 }
 
 // Use the geocode API to get the long/lat of a searched city name
