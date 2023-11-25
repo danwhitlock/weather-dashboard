@@ -26,11 +26,11 @@ searchButton.addEventListener('click', function(event) {
   getLatLon();
 });
 
-// Listeners for previous searches - NOT WORKING!!
+// Listeners for buttons representing previous searches
 
 searchHistoryBox.addEventListener('click', function(event) {
   event.preventDefault();
-  cityName = this.value;
+  cityName = event.target.textContent;
   getLatLon();
 });
 
@@ -102,18 +102,18 @@ function getForecast() {
     humidity.textContent = "Humidity: " + data.list[0].main.humidity + "%";
     searchedCity.appendChild(humidity);
     
-    // add border to current forecast & five-day forecast containers
+    // add border to current forecast
     todaysWeatherBox.setAttribute('style', 'border: 1px solid black');
 
     // create header & container for 5 day forecast
-
+    fiveDaySection.innerHTML = "";
     var fiveDayContainer = document.createElement('div');
     fiveDayContainer.setAttribute('style', 'display:flex; flex-direction: row;')
     fiveDaySection.appendChild(fiveDayContainer);
 
     // create five-day forecast elements
 
-    for (let i = 9; i < 40; i += 8) {
+    for (let i = 6; i < 40; i += 8) {
 
     var futureForecastBox = document.createElement('div');
     futureForecastBox.setAttribute('style', 'background-color: steelblue; color: white; padding: 5px; margin: 5px;');
