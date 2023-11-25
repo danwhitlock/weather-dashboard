@@ -11,7 +11,7 @@ var todaysWeatherBox = document.getElementById('today');
 var searchHistoryBox = document.getElementById('history');
 
 // variable to select the div which will hold the five-day forecast
-var fiveDayBox = document.getElementById('forecast');
+var fiveDaySection = document.getElementById('forecast');
 
 // get the searched value and generate the results
 var searchButton = document.getElementById('search-button');
@@ -101,9 +101,44 @@ function getForecast() {
     var humidity = document.createElement('p');
     humidity.textContent = "Humidity: " + data.list[0].main.humidity + "%";
     searchedCity.appendChild(humidity);
+    
+    // add border to current forecast & five-day forecast containers
     todaysWeatherBox.setAttribute('style', 'border: 1px solid black');
+    fiveDaySection.setAttribute('style', 'border: 1px solid black');
 
-    // create header for 5 day forecast
+    // create header & container for 5 day forecast
+
+    var fiveDayContainer = document.createElement('div');
+    fiveDaySection.appendChild(fiveDayContainer);
+
+    // create five-day forecast elements individually
+
+    
+    var futureForecastBox = document.createElement('div');
+    futureForecastBox.setAttribute('style', 'background-color: steelblue; color: white; padding: 5px;');
+    fiveDayContainer.appendChild(futureForecastBox);
+
+    var futureDate = document.createElement('p');
+    futureDate.textContent = todaysDate;            // FIX DATE
+    futureForecastBox.appendChild(futureDate);
+    
+    var futureWeatherImage = document.createElement('img');
+    var futureWeatherImageCode = data.list[6].weather[0].icon;
+    var futureWeatherImageURL = "http://openweathermap.org/img/w/" + futureWeatherImageCode + ".png";
+    futureWeatherImage.setAttribute('src', futureWeatherImageURL);
+    futureForecastBox.appendChild(futureWeatherImage);
+
+    var futureTemp = document.createElement('p');
+    futureTemp.textContent = "Temperature: " + kelvinToCelsius(data.list[6].main.temp) + "°C";
+    futureForecastBox.appendChild(futureTemp);
+
+    var futureWind = document.createElement('p');
+    futureWind.textContent = "Wind Speed: " + data.list[6].wind.speed + "KPH";
+    futureForecastBox.appendChild(futureWind);
+
+    var futureHumidity = document.createElement('p');
+    futureHumidity.textContent = "Humidity: " + data.list[6].main.humidity + "%";
+    futureForecastBox.appendChild(futureHumidity);
 
   });
 }
