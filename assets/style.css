@@ -10,3 +10,9 @@ p {
     font-size: 1rem;
     padding-left: 5px;
 }
+
+.searchedCity {
+    background-color:cornflowerblue;
+    color: white;
+    border: 1px solid white;
+}

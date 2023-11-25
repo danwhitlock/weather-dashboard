@@ -13,6 +13,9 @@ var searchHistoryBox = document.getElementById('history');
 // variable to select the div which will hold the five-day forecast
 var fiveDaySection = document.getElementById('forecast');
 
+// variable to hold the loop start point, in order to ensure the 12:00 forecasts for the next five days are returned regardless of time of search
+var loopStartPoint = 0;
+
 // get the searched value and generate the results
 var searchButton = document.getElementById('search-button');
 var searchedValue = document.getElementById('search-input');
@@ -21,6 +24,7 @@ searchButton.addEventListener('click', function(event) {
   event.preventDefault();
   cityName = searchedValue.value;
   var savedSearch = document.createElement('button')
+  savedSearch.setAttribute('class', 'searchedCity');
   savedSearch.textContent = searchedValue.value;
   searchHistoryBox.appendChild(savedSearch);
   getLatLon();
@@ -111,40 +115,59 @@ function getForecast() {
     fiveDayContainer.setAttribute('style', 'display:flex; flex-direction: row;')
     fiveDaySection.appendChild(fiveDayContainer);
 
+    // set start point for five-day forecast loop, so that the 12:00 forecasts are always returned
+    function determineLoopStartPoint() {
+      if (data.list[0].dt_txt.includes("00:00:00")) {
+        loopStartPoint = 12;
+      } else if (data.list[0].dt_txt.includes("03:00:00")) {
+        loopStartPoint = 11;
+      } else if (data.list[0].dt_txt.includes("06:00:00")) {
+      loopStartPoint = 10;
+      } else if (data.list[0].dt_txt.includes("09:00:00")) {
+        loopStartPoint = 9;
+      } else if (data.list[0].dt_txt.includes("12:00:00")) {
+        loopStartPoint = 8;
+      } else if (data.list[0].dt_txt.includes("15:00:00")) {
+        loopStartPoint = 7;
+      } else if (data.list[0].dt_txt.includes("18:00:00")) {
+        loopStartPoint = 6;
+      } else if (data.list[0].dt_txt.includes("21:00:00")) {
+        loopStartPoint = 5;
+      }
+    }
+
+    determineLoopStartPoint();
+
     // create five-day forecast elements
 
-    for (let i = 6; i < 40; i += 8) {
+    for (let i = loopStartPoint; i < 40; i += 8) {
 
-    var futureForecastBox = document.createElement('div');
-    futureForecastBox.setAttribute('style', 'background-color: steelblue; color: white; padding: 5px; margin: 5px;');
-    fiveDayContainer.appendChild(futureForecastBox);
+      var futureForecastBox = document.createElement('div');
+      futureForecastBox.setAttribute('style', 'background-color: steelblue; color: white; padding: 5px; margin: 5px;');
+      fiveDayContainer.appendChild(futureForecastBox);
 
-    var futureDate = document.createElement('p');
-    futureDate.textContent = data.list[i].dt_txt;
-    futureForecastBox.appendChild(futureDate);
-    
-    var futureWeatherImage = document.createElement('img');
-    var futureWeatherImageCode = data.list[i].weather[0].icon;
-    var futureWeatherImageURL = "http://openweathermap.org/img/w/" + futureWeatherImageCode + ".png";
-    futureWeatherImage.setAttribute('src', futureWeatherImageURL);
-    futureForecastBox.appendChild(futureWeatherImage);
+      var futureDate = document.createElement('p');
+      futureDate.textContent = data.list[i].dt_txt;
+      futureForecastBox.appendChild(futureDate);
+      
+      var futureWeatherImage = document.createElement('img');
+      var futureWeatherImageCode = data.list[i].weather[0].icon;
+      var futureWeatherImageURL = "http://openweathermap.org/img/w/" + futureWeatherImageCode + ".png";
+      futureWeatherImage.setAttribute('src', futureWeatherImageURL);
+      futureForecastBox.appendChild(futureWeatherImage);
 
-    var futureTemp = document.createElement('p');
-    futureTemp.textContent = "Temperature: " + kelvinToCelsius(data.list[i].main.temp) + "°C";
-    futureForecastBox.appendChild(futureTemp);
+      var futureTemp = document.createElement('p');
+      futureTemp.textContent = "Temperature: " + kelvinToCelsius(data.list[i].main.temp) + "°C";
+      futureForecastBox.appendChild(futureTemp);
 
-    var futureWind = document.createElement('p');
-    futureWind.textContent = "Wind Speed: " + data.list[i].wind.speed + "KPH";
-    futureForecastBox.appendChild(futureWind);
+      var futureWind = document.createElement('p');
+      futureWind.textContent = "Wind Speed: " + data.list[i].wind.speed + "KPH";
+      futureForecastBox.appendChild(futureWind);
 
-    var futureHumidity = document.createElement('p');
-    futureHumidity.textContent = "Humidity: " + data.list[i].main.humidity + "%";
-    futureForecastBox.appendChild(futureHumidity);
+      var futureHumidity = document.createElement('p');
+      futureHumidity.textContent = "Humidity: " + data.list[i].main.humidity + "%";
+      futureForecastBox.appendChild(futureHumidity);
     }
   });
 }
-
-// loop through the objects for records matching 12:00?
-// create a new array of only those objects?
-// loop through those to populate five-day forecast?
 
