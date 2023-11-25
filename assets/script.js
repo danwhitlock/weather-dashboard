@@ -81,7 +81,7 @@ function getForecast() {
     todaysWeatherBox.appendChild(searchedCity);
     // Display today's date
     var dateContainer = document.createElement('p');
-    dateContainer.textContent = todaysDate;
+    dateContainer.textContent = data.list[0].dt_txt;  
     searchedCity.appendChild(dateContainer);
     // Display Weather Icon
     var weatherImage = document.createElement('img');
@@ -104,42 +104,43 @@ function getForecast() {
     
     // add border to current forecast & five-day forecast containers
     todaysWeatherBox.setAttribute('style', 'border: 1px solid black');
-    fiveDaySection.setAttribute('style', 'border: 1px solid black');
 
     // create header & container for 5 day forecast
 
     var fiveDayContainer = document.createElement('div');
+    fiveDayContainer.setAttribute('style', 'display:flex; flex-direction: row;')
     fiveDaySection.appendChild(fiveDayContainer);
 
-    // create five-day forecast elements individually
+    // create five-day forecast elements
 
-    
+    for (let i = 9; i < 40; i += 8) {
+
     var futureForecastBox = document.createElement('div');
-    futureForecastBox.setAttribute('style', 'background-color: steelblue; color: white; padding: 5px;');
+    futureForecastBox.setAttribute('style', 'background-color: steelblue; color: white; padding: 5px; margin: 5px;');
     fiveDayContainer.appendChild(futureForecastBox);
 
     var futureDate = document.createElement('p');
-    futureDate.textContent = todaysDate;            // FIX DATE
+    futureDate.textContent = data.list[i].dt_txt;
     futureForecastBox.appendChild(futureDate);
     
     var futureWeatherImage = document.createElement('img');
-    var futureWeatherImageCode = data.list[6].weather[0].icon;
+    var futureWeatherImageCode = data.list[i].weather[0].icon;
     var futureWeatherImageURL = "http://openweathermap.org/img/w/" + futureWeatherImageCode + ".png";
     futureWeatherImage.setAttribute('src', futureWeatherImageURL);
     futureForecastBox.appendChild(futureWeatherImage);
 
     var futureTemp = document.createElement('p');
-    futureTemp.textContent = "Temperature: " + kelvinToCelsius(data.list[6].main.temp) + "°C";
+    futureTemp.textContent = "Temperature: " + kelvinToCelsius(data.list[i].main.temp) + "°C";
     futureForecastBox.appendChild(futureTemp);
 
     var futureWind = document.createElement('p');
-    futureWind.textContent = "Wind Speed: " + data.list[6].wind.speed + "KPH";
+    futureWind.textContent = "Wind Speed: " + data.list[i].wind.speed + "KPH";
     futureForecastBox.appendChild(futureWind);
 
     var futureHumidity = document.createElement('p');
-    futureHumidity.textContent = "Humidity: " + data.list[6].main.humidity + "%";
+    futureHumidity.textContent = "Humidity: " + data.list[i].main.humidity + "%";
     futureForecastBox.appendChild(futureHumidity);
-
+    }
   });
 }
 
