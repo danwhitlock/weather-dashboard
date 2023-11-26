@@ -16,6 +16,18 @@ var fiveDaySection = document.getElementById('forecast');
 // variable to hold the loop start point, in order to ensure the 12:00 forecasts for the next five days are returned regardless of time of search
 var loopStartPoint = 0;
 
+// Retrieve previous searches from local storage and create buttons
+function showPastSearches() {
+  var pastSearches = JSON.parse(localStorage.getItem('savedSearches'));
+  for (var i = 0; i < pastSearches.length; i++) {
+  var pastSearch =  document.createElement('button')
+  pastSearch.setAttribute('class', 'searchedCity');
+  pastSearch.textContent = pastSearches[i];
+  searchHistoryBox.appendChild(pastSearch);
+  }
+}
+showPastSearches();
+
 // get the searched value and generate the results
 var searchButton = document.getElementById('search-button');
 var searchedValue = document.getElementById('search-input');
@@ -23,14 +35,22 @@ var searchedValue = document.getElementById('search-input');
 searchButton.addEventListener('click', function(event) {
   event.preventDefault();
   cityName = searchedValue.value;
+
+  // Add the search to local storage
+  var previousSearches = JSON.parse(localStorage.getItem('savedSearches')) || [];
+  previousSearches.push(cityName);
+  localStorage.setItem('savedSearches', JSON.stringify(previousSearches));
+
+  // create buttons for the searches undertaken
   var savedSearch = document.createElement('button')
   savedSearch.setAttribute('class', 'searchedCity');
   savedSearch.textContent = searchedValue.value;
   searchHistoryBox.appendChild(savedSearch);
+
   getLatLon();
 });
 
-// Listeners for buttons representing previous searches
+// Listeners for buttons representing previous searches, so they can be repeated when clicked
 
 searchHistoryBox.addEventListener('click', function(event) {
   event.preventDefault();
@@ -135,7 +155,7 @@ function getForecast() {
         loopStartPoint = 5;
       }
     }
-
+    // invoke function to determine the loop start point
     determineLoopStartPoint();
 
     // create five-day forecast elements
