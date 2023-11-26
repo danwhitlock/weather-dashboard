@@ -112,7 +112,7 @@ function getForecast() {
     // Display Weather Icon
     var weatherImage = document.createElement('img');
     var weatherImageCode = data.list[0].weather[0].icon;
-    var weatherImageURL = "http://openweathermap.org/img/w/" + weatherImageCode + ".png";
+    var weatherImageURL = "https://openweathermap.org/img/w/" + weatherImageCode + ".png";
     weatherImage.setAttribute('src', weatherImageURL);
     searchedCity.appendChild(weatherImage);
     // Display temp
@@ -174,7 +174,7 @@ function getForecast() {
       
       var futureWeatherImage = document.createElement('img');
       var futureWeatherImageCode = data.list[i].weather[0].icon;
-      var futureWeatherImageURL = "http://openweathermap.org/img/w/" + futureWeatherImageCode + ".png";
+      var futureWeatherImageURL = "https://openweathermap.org/img/w/" + futureWeatherImageCode + ".png";
       futureWeatherImage.setAttribute('src', futureWeatherImageURL);
       futureForecastBox.appendChild(futureWeatherImage);
 
