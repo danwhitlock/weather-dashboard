@@ -72,7 +72,7 @@ function kelvinToCelsius (kelvinTemp) {
 // Use the geocode API to get the long/lat of a searched city name
 function getLatLon() { 
 
-  geoCode = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + APIKey;
+  geoCode = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + APIKey;
 
   fetch(geoCode)
     .then(function (response) {
