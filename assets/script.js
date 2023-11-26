@@ -18,7 +18,7 @@ var loopStartPoint = 0;
 
 // Retrieve previous searches from local storage and create buttons
 function showPastSearches() {
-  
+  if (pastSearches !== "") {
     var pastSearches = JSON.parse(localStorage.getItem('savedSearches')) || [];
     for (var i = 0; i < pastSearches.length; i++) {
       var pastSearch =  document.createElement('button')
@@ -26,6 +26,7 @@ function showPastSearches() {
       pastSearch.textContent = pastSearches[i];
       searchHistoryBox.appendChild(pastSearch);
       }
+  }
 }
 showPastSearches();
 
